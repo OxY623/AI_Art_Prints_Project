@@ -1,0 +1,44 @@
+
+  .card {
+    border: none;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .card:hover {
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+  }
+
+  .card-img-top {
+    height: 200px;
+    background-size: cover;
+ background-position: center;
+  }
+
+  .card-title a {
+    color: #333;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .card-title a:hover {
+    color: #f60;
+  }
+
+  .card-text {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .btn-primary {
+    background-color: #f60;
+    border-color: #f60;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .btn-primary:hover {
+    background-color: #fff;
+    color: #f60;
+  }
