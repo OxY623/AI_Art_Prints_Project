@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'pages',
     'prints',
     'guest_auth',
+    'cart',
+    'news',
 ]
 
 MIDDLEWARE = [

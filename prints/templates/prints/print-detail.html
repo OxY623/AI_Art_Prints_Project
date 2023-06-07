@@ -6,11 +6,19 @@
         <div class="row">
             <div class="col-md-8">
                 <h2>{{ object.title }}</h2>
-                    <h3>{{ object.artist }}</h3>
-                    {% if object.image %}
-                        <img class="img-fluid" src="{{ object.image.url }}" alt="{{ object.title }}">
-                    {% endif %}
-                    <p>{{ object.description }}</p>
+                <h3>{{ object.artist }}</h3>
+                {% if object.image %}
+                    <img class="img-fluid" src="{{ object.image.url }}" alt="{{ object.title }}">
+                {% endif %}
+                <p>{{ object.description }}</p>
+                <form method="post" action="{% url 'cart:add_to_cart' object.id %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="quantity">Quantity:</label>
+                        <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                </form>
             </div>
             <div class="col-md-4">
                 <div class="card">
@@ -19,8 +27,23 @@
                         <p class="card-text">{{ object.price }}</p>
                     </div>
                 </div>
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Cart</h5>
+                        {% if cart_items %}
+                            <ul class="list-group">
+                                {% for item in cart_items %}
+                                    <li class="list-group-item">{{ item.print.title }} x {{ item.quantity }}</li>
+                                {% endfor %}
+                            </ul>
+                            <p class="mt-3">Total: {{ total_price }}</p>
+                            <a href="{% url 'cart' %}" class="btn btn-primary">View Cart</a>
+                        {% else %}
+                            <p>Your cart is empty.</p>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
     </div>
 {% endblock %}
