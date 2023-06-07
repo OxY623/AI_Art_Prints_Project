@@ -1,15 +1,44 @@
 {{% extends 'base.html' %}
 {% load static %}
+{%  block style %}
+    <style>
+  .card {
+    border: none;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+  }
 
-{% block title %}Discover - AI Art Prints{% endblock %}
+  .card:hover {
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+  }
+
+  .card-img-top {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 0;
+  }
+
+  .card-text {
+    font-size: 16px;
+    margin-bottom: 0;
+  }
+</style>
+{% endblock %}
 
 {% block content %}
-  <div class="container">
+  <div class="container mt-4">
     <div class="row">
       <div class="col-md-3">
         <h3>Filters</h3>
         <form method="get">
-          <div class="form">
+          <div class="form-group">
             <label for="category">Category</label>
             <select class="form-control" id="category" name="category">
               <option value="">All</option>
@@ -34,14 +63,12 @@
           {% for instance in object_list %}
             <div class="col-md-4 print_list">
               <a href="{{ instance.get_absolute_url }}">
-                <div class="print_image">
-                  {% if instance.image %}
-                    <img class="img-fluid" src="{{ instance.image.url }}" alt="{{ instance.title }}">
-                  {% endif %}
-                </div>
-                <div class="print_info">
-                  <h4>{{ instance.title }}</h4>
-                  <p>{{ instance.price }}</p>
+                <div class="card mb-4">
+                  <div class="card-img-top" style="background-image: url('{{ instance.image.url }}');"></div>
+                  <div class="card-body">
+                    <h5 class="card-title">{{ instance.title }}</h5>
+                    <p class="card-text">{{ instance.price }}</p>
+                  </div>
                 </div>
               </a>
             </div>
@@ -51,5 +78,3 @@
     </div>
   </div>
 {% endblock %}
-
-

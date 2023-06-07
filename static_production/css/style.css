@@ -1,0 +1,58 @@
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+footer {
+  margin-top: auto;
+  background-color: #0a0707;
+}
+
+.container {
+  padding: 2rem;
+}
+.navbar-brand > img {
+
+}
+.logo-text{
+    display: none;
+     overflow: hidden;
+}
+/* Навигационная панель */
+nav {
+  background-color: #333;
+  padding: 1rem;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+}
+
+/* Основной контент */
+.content {
+  padding: 2rem;
+}
+
+/* Футер */
+footer {
+  text-align: center;
+  padding: 1rem;
+  color: #666;
+}
+
+.navbar-icon {
+  color: #333;
+  font-size: 20px;
+  margin-left: 10px;
+}
+
+.navbar-icon:hover {
+  color: #000;
+}
