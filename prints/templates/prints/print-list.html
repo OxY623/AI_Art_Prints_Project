@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Discover - AI Art Prints{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <h3>Filters</h3>
+        <form method="get">
+          <div class="form-group">
+            <label for="category">Category</label>
+            <select class="form-control" id="category" name="category">
+              <option value="">All</option>
+              {% for category in categories %}
+                <option value="{{ category.id }}" {% if category.id == selected_category %}selected{% endif %}>{{ category.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="sort">Sort by</label>
+            <select class="form-control" id="sort" name="sort">
+              <option value="-created_at" {% if sort == '-created_at' %}selected{% endif %}>Newest</option>
+              <option value="-views" {% if sort == '-views' %}selected{% endif %}>Most viewed</option>
+              <option value="-likes" {% if sort == '-likes' %}selected{% endif %}>Most liked</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Apply filters</button>
+        </form>
+      </div>
+      <div class="col-md-9">
+        <div class="row">
+          {% for instance in object_list %}
+            <div class="col-md-4 print_list">
+              <a href="{{ instance.get_absolute_url }}">
+                <div class="print_image">
+                  {% if instance.image %}
+                    <img class="img-fluid" src="{{ instance.image.url }}" alt="{{ instance.title }}">
+                  {% endif %}
+                </div>
+                <div class="print_info">
+                  <h4>{{ instance.title }}</h4>
+                  <p>{{ instance.artist }}</p>
+                  <p>{{ instance.price }}</p>
+                </div>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

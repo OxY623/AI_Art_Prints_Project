@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  <div class="container">
+    <div class="wrapper-prints row">
+      <h1>Поиск результатов</h1>
+      {% if search_text %}
+        <p>Вы искали: {{ search_text }}</p>
+        {% for print in prints %}
+          <div class="col-md-4 print_list">
+            <a href="{{ print.get_absolute_url }}">
+              {% if print.image %}
+                <img class="img-fluid" src="{{ print.image.url }}" alt="{{ print.title }}">
+              {% endif %}
+            </a>
+          </div>
+        {% empty %}
+          <div class="col-md-4 print_list">Принты не найдены</div>
+        {% endfor %}
+      {% else %}
+        <p>Please enter a search term.</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

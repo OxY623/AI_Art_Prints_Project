@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Print - AI Art Prints{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h2>{{ object.title }}</h2>
+                    <h3>{{ object.artist }}</h3>
+                    {% if object.image %}
+                        <img class="img-fluid" src="{{ object.image.url }}" alt="{{ object.title }}">
+                    {% endif %}
+                    <p>{{ object.description }}</p>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Price</h5>
+                        <p class="card-text">{{ object.price }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}

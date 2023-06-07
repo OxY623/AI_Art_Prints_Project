@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{%  load static %}
+
+
+
+
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <h1>Welcome to AI Art Prints</h1>
+        <p>We offer unique art pieces created with the help of artificial intelligence.</p>
+        <p>Our collection includes pieces of various styles and directions, from classic paintings to modern abstractions.</p>
+        <p>Choose your favorite print and place your order right now!</p>
+        <a class="btn btn-primary" href="{% url 'prints:prints-list' %}">View Prints</a>
+      </div>
+      <div class="col-md-4">
+        <img class="img-fluid" src="{% static 'images/img_1.jpg' %}" alt="girl_and_cupcakes">
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
