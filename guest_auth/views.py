@@ -1,26 +1,8 @@
-from django.contrib.auth import authenticate
 from django.shortcuts import render, redirect
-from django.contrib.auth import login
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import login, logout
 
-def login_view(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('home')
-        else:
-            error_message = 'Invalid username or password. Please try again.'
-            return render(request, 'login.html', {'error_message': error_message})
-    else:
-        return render(request, 'guest_login.html')
-
-
-
-
-def register_view(request, *args, **kwargs):
+def register_view(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -29,5 +11,20 @@ def register_view(request, *args, **kwargs):
             return redirect('home')
     else:
         form = UserCreationForm()
-    return render(request, 'guest_register.html', {'form': form})
+    return render(request, 'registration/register.html', {'form': form})
+
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('home')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'registration/login.html', {'form': form})
+
+def logout_view(request):
+    logout(request)
+    return redirect('home')
 
