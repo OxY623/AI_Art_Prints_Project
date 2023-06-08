@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from prints.models import Cart, CartPrint, Print
 from .forms import PurchaseForm
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-
+@login_required
 def confirm_purchase(request):
     if request.method == 'POST':
         form = PurchaseForm(request.POST)
@@ -36,6 +37,6 @@ def confirm_purchase(request):
 
     return render(request, ' purchase/purchase.html', context)
 
-
+@login_required
 def thank_you(request):
     return render(request,' purchase/confirm_purchase.html')

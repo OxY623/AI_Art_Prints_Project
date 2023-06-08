@@ -97,28 +97,38 @@
     </div>
 
     <div class="container form-group">
-        <h2 class="mb-4">Поиск по названию и описанию</h2>
+        <h1 class="text-center mb-4">Prints Catalog</h1>
         <form action="." method="GET">
             {{ form.as_div }}
             <button type="submit" class="btn btn-primary">Найти</button>
         </form>
 
     </div>
-    {% if search_text %}
-    <h3>Результаты поиска для <em>{{ search_text }}</em></h3>
-    {% if prints %}
-        <ul class="list-group">
-        {% for print in prints %}
-            <li class="list-group-item">
-                <span class="text-info">Название: </span>
-                <a href="{% url 'prints:prints-detail' print.pk %}">{{ print.title }}</a><br/>
-                <span class="text-info">Описание: </span> {{ print.description }}
-            </li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>По вашему запросу ничего не найдено.</p>
-    {% endif %}
+{% if search_text %}
+<h3>Результаты поиска для <em>{{ search_text }}</em></h3>
+{% if prints %}
+<div class="card-columns">
+{% for print in prints %}
+<div class="card mb-3">
+<div class="row no-gutters">
+<div class="col-md-4">
+<img style="width: 90%; height: 90%;" src="{{ print.image.url }}" class="card-img-top" alt="{{ print.title }}">
+</div>
+<div class="col-md-8">
+<div class="card-body">
+<h5 class="card-title"><a href="{% url 'prints:prints-detail' print.pk %}">{{ print.title }}</a></h5>
+<p class="card-text">{{ print.description }}</p>
+<p class="card-text"><small class="text-muted">{{ print.price }} руб.</small></p>
+<a href="{% url 'prints:prints-detail' print.pk %}" class="btn btn-primary">Заказать</a>
+</div>
+</div>
+</div>
+</div>
+{% endfor %}
+</div>
+{% else %}
+<p>По вашему запросу ничего не найдено.</p>
+{% endif %}
 {% endif %}
 
 {% endblock %}
