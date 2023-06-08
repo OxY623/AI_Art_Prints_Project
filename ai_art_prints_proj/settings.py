@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'guest_auth',
     'cart',
     'news',
+    "purchase",
 ]
 
 MIDDLEWARE = [

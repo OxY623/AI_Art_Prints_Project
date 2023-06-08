@@ -27,6 +27,7 @@ from pages.views import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('purchase/', include('purchase.urls')),
     path('guest/', include('guest_auth.urls')),
     path('cart/', include('cart.urls')),
     path('prints/', include('prints.urls')),
