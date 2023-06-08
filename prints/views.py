@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import Http404
 from .models import Print
+from .forms import SearchForm
 
 
 # Create your views here.
@@ -42,3 +43,21 @@ def print_search_view(request):
 
     }
     return render(request, 'search.html', context)
+
+
+def print_search_main_view(request):
+    search_text = request.GET.get("search", '')
+    form = SearchForm(request.GET)
+    prints = set()
+    if form.is_valid() and form.cleaned_data['search']:
+        search = form.cleaned_data['search']
+        search_in = form.cleaned_data.get('search_in') or 'title'
+        if search_in == 'title':
+            prints = Print.objects.filter(title__icontains=search)
+        else:
+            prints_descriptor = Print.objects.filter(description__icontains=search)
+    context={
+             'search_text': search_text,
+              'prints' : prints,
+          }
+    return render(request,'home.html', context)
