@@ -23,6 +23,7 @@ class Print(models.Model):
     artist = models.CharField(max_length=120, help_text='Автор')
     description = models.TextField(help_text='Описание')
     image = models.ImageField(upload_to='prints/')
+    quantity = models.IntegerField(default=0,max_length=100)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

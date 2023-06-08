@@ -23,11 +23,10 @@ def confirm_purchase(request):
                 item.print.save()
             cart.delete()
 
-            # Отправка сообщения пользователю об успешной покупке
-            messages.success(request, 'Ваш заказ принят! Спасибо за покупку.')
+
 
             # Возвращение пользователя на главную страницу
-            return redirect('home')
+            return redirect('purchase:confirm_purchase')
     else:
         form = PurchaseForm()
 
@@ -35,4 +34,8 @@ def confirm_purchase(request):
         'form': form
     }
 
-    return render(request, '/purchase/purchase.html', context)
+    return render(request, ' purchase/purchase.html', context)
+
+
+def thank_you(request):
+    return render(request,' purchase/confirm_purchase.html')
