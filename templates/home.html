@@ -1,24 +1,134 @@
+{#{% extends 'base.html' %}#}
+{#{%  load static %}#}
+{##}
+{##}
+{##}
+{##}
+{##}
+{#{% block content %}#}
+{#  <div class="container">#}
+{#    <div class="row">#}
+{#      <div class="col-md-8">#}
+{#        <h1>Welcome to AI Art Prints</h1>#}
+{#        <p>We offer unique art pieces created with the help of artificial intelligence.</p>#}
+{#        <p>Our collection includes pieces of various styles and directions, from classic paintings to modern abstractions.</p>#}
+{#        <p>Choose your favorite print and place your order right now!</p>#}
+{#        <a class="btn btn-primary" href="{% url 'prints:prints-list' %}">View Prints</a>#}
+{#      </div>#}
+{#      <div class="col-md-4">#}
+{#        <img class="img-fluid" src="{% static 'images/img_1.jpg' %}" alt="girl_and_cupcakes">#}
+{#      </div>#}
+{#    </div>#}
+{#   #}
+{#  </div>#}
+{#{% endblock %}#}
 {% extends 'base.html' %}
-{%  load static %}
-
-
-
-
+{% load static %}
 
 {% block content %}
-  <div class="container">
-    <div class="row">
-      <div class="col-md-8">
-        <h1>Welcome to AI Art Prints</h1>
-        <p>We offer unique art pieces created with the help of artificial intelligence.</p>
-        <p>Our collection includes pieces of various styles and directions, from classic paintings to modern abstractions.</p>
-        <p>Choose your favorite print and place your order right now!</p>
-        <a class="btn btn-primary" href="{% url 'prints:prints-list' %}">View Prints</a>
-      </div>
-      <div class="col-md-4">
-        <img class="img-fluid" src="{% static 'images/img_1.jpg' %}" alt="girl_and_cupcakes">
-      </div>
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-md-8">
+                <h1 class="display-4">Добро пожаловать в AI Art Prints</h1>
+                <p class="lead">Мы предлагаем уникальные произведения искусства, созданные с помощью искусственного
+                    интеллекта.</p>
+                <p>В нашей коллекции представлены произведения различных стилей и направлений, от классической живописи
+                    до современных абстракций.</p>
+                <p>Выберите понравившийся принт и оформите заказ прямо сейчас!</p>
+                <a class="btn btn-primary" href="{% url 'prints:prints-list' %}">View Prints</a>
+            </div>
+            <div class="col-md-4">
+                <img class="img-fluid" src="{% static 'images/img_1.jpg' %}" alt="girl_and_cupcakes">
+            </div>
+        </div>
     </div>
-  </div>
-{% endblock %}
 
+
+    {#    <form action="#" method="GET">#}
+    {#        <div class="row">#}
+    {#            <div class="col-md-6">#}
+    {#                <div class="form-group">#}
+    {#                    <input type="text" class="form-control" placeholder="Название принта">#}
+    {#                </div>#}
+    {#            </div>#}
+    {#            <div class="col-md-6">#}
+    {#                <div class="form-group">#}
+    {#                    <input type="text" class="form-control" placeholder="Описание принта">#}
+    {#                </div>#}
+    {#            </div>#}
+    {#        </div>#}
+    {#        <button type="submit" class="btn btn-primary">Найти</button>#}
+    {#    </form>#}
+
+    <div class="container my-5">
+        <h2>Как мы создаем принты с помощью искусственного интеллекта</h2>
+        <p class="lead">Проект "AI Art Prints" - это интернет-магазин, который предлагает уникальные принты, созданные с
+            помощью искусственного интеллекта. Принты могут быть созданы на основе различных материалов, таких как
+            фотографии, изображения, рисунки и другие.</p>
+
+        <p class="lead">Создание принтов происходит следующим образом:</p>
+
+        <ul class="lead">
+            <li>Сбор данных: Искусственный интеллект собирает данные для создания принта. Эти данные могут быть собраны
+                с помощью компьютерного зрения, машинного обучения, генеративных моделей и других технологий.
+            </li>
+            <li>Обработка данных: Полученные данные обрабатываются и анализируются искусственным интеллектом с целью
+                создания уникального изображения.
+            </li>
+            <li>Генерация изображения: На основе обработанных данных создается уникальное изображение. Это изображение
+                может быть отредактировано вручную или автоматически, чтобы улучшить его качество.
+            </li>
+            <li>Создание принта: После создания изображения, оно проходит этап печати на нужном материале, который
+                выбрал покупатель.
+            </li>
+            <li>Доставка заказа: Принт упаковывается и доставляется покупателю.</li>
+        </ul>
+
+        <p class="lead">Интернет-магазин "AI Art Prints" предлагает широкий выбор принтов, созданных с помощью
+            искусственного интеллекта. Каждый принт имеет уникальный дизайн и может быть создан на различных материалах,
+            таких как холст, фотобумага, металл и другие.</p>
+
+        <p class="lead">Клиенты могут выбрать готовый дизайн или заказать создание персонального принта на основе своего
+            изображения. Они могут выбрать размер принта, его ориентацию, материал, а также рамку и подпись.</p>
+
+        <p class="lead">"AI Art Prints" предлагает принты, которые могут использоваться в интерьере, в качестве подарков
+            и коллекционных предметов. Это уникальный проект, который объединяет искусственный интеллект и творчество,
+            чтобы создать уникальные произведения искусства.</p>
+    </div>
+
+    <div class="container form-group">
+        <h1 class="text-center mb-4">Prints Catalog</h1>
+        <form action="." method="GET">
+            {{ form.as_div }}
+            <button type="submit" class="btn btn-primary">Найти</button>
+        </form>
+
+    </div>
+{% if search_text %}
+<h3>Результаты поиска для <em>{{ search_text }}</em></h3>
+{% if prints %}
+<div class="card-columns">
+{% for print in prints %}
+<div class="card mb-3">
+<div class="row no-gutters">
+<div class="col-md-4">
+<img style="width: 90%; height: 90%;" src="{{ print.image.url }}" class="card-img-top" alt="{{ print.title }}">
+</div>
+<div class="col-md-8">
+<div class="card-body">
+<h5 class="card-title"><a href="{% url 'prints:prints-detail' print.pk %}">{{ print.title }}</a></h5>
+<p class="card-text">{{ print.description }}</p>
+<p class="card-text"><small class="text-muted">{{ print.price }} руб.</small></p>
+<a href="{% url 'prints:prints-detail' print.pk %}" class="btn btn-primary">Заказать</a>
+</div>
+</div>
+</div>
+</div>
+{% endfor %}
+</div>
+{% else %}
+<p>По вашему запросу ничего не найдено.</p>
+{% endif %}
+{% endif %}
+
+{% endblock %}
