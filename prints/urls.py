@@ -11,6 +11,7 @@ app_name = 'prints'
 
 urlpatterns = [
     path('', print_list_view, name='prints-list'),
+    path('?page=<int:page_number>', print_list_view, name='prints-list'),
     path('<int:my_id>/', print_lookup_view, name='prints-detail'),
     path('prints_search/', print_search_view, name='prints_search'),
     path('<int:my_id>/', print_lookup_view, name='prints-detail'),

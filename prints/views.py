@@ -1,36 +1,55 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import Http404
 from .models import Print
-from .forms import SearchForm
+from .forms import SearchForm, SearchPrintsForm
+from django.core.paginator import Paginator
 
 
 # Create your views here.
 
+from django.core.paginator import Paginator
+
+
 def print_list_view(request):
-    queryset = Print.objects.all()
+    object_list = Print.objects.all()
     viewed = request.session.get('viewed', [])
-    date_from = request.GET.get('date_from')
-    date_to = request.GET.get('date_to')
-    price_from = request.GET.get('price_from')
-    price_to = request.GET.get('price_to')
 
-    if date_from:
-        queryset = queryset.filter(created_at__gte=date_from)
-    if date_to:
-        queryset = queryset.filter(created_at__lte=date_to)
-    if price_from:
-        queryset = queryset.filter(price__gte=price_from)
-    if price_to:
-        queryset = queryset.filter(price__lte=price_to)
+    # Создаем объект формы и передаем GET-параметры
+    form = SearchPrintsForm(request.GET)
 
+    # Проверяем, что форма прошла валидацию
+    if form.is_valid():
+        # Получаем данные, введенные пользователем в форму
+        date_from = form.cleaned_data.get('date_from')
+        date_to = form.cleaned_data.get('date_to')
+        price_from = form.cleaned_data.get('price_from')
+        price_to = form.cleaned_data.get('price_to')
+
+        # Фильтруем список объектов с помощью полученных данных
+        if date_from:
+            object_list = object_list.filter(created_at__gte=date_from)
+        if date_to:
+            object_list = object_list.filter(created_at__lte=date_to)
+        if price_from:
+            object_list = object_list.filter(price__gte=price_from)
+        if price_to:
+            object_list = object_list.filter(price__lte=price_to)
+
+    # Разбиваем отфильтрованный список на страницы
+    paginator = Paginator(object_list, 20)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # Добавляем объект формы в контекст шаблона
     context = {
-        'object_list': queryset,
+        'object_list': page_obj,
         'viewed': viewed,
-        'date_from': date_from,
-        'date_to': date_to,
-        'price_from': price_from,
-        'price_to': price_to,
+        'form': form,
     }
+
+    # Если форма не прошла валидацию, передаем ее с ошибками в контекст шаблона
+    if not form.is_valid():
+        context['form'] = form
 
     return render(request, 'prints/print-list.html', context)
 
