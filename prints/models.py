@@ -47,6 +47,9 @@ class CartPrint(models.Model):
     print = models.ForeignKey(Print, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
 
+    def __str__(self):
+        return f'{self.pk} {self.print.title} - {self.cart.user}'
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
