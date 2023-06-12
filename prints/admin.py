@@ -11,7 +11,7 @@ class AIArtPrintsAdmin(AdminSite):
 
 class PrintAdmin(admin.ModelAdmin):
     date_hierarchy = 'created_at'
-    list_display = ('title',  'artist','price')
+    list_display = ('title',  'artist','price', 'quantity')
     list_filter = ('title','price')
 
 

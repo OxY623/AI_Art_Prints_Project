@@ -35,7 +35,7 @@ def print_list_view(request):
             object_list = object_list.filter(price__lte=price_to)
 
     # Разбиваем отфильтрованный список на страницы
-    paginator = Paginator(object_list, 20)
+    paginator = Paginator(object_list, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
