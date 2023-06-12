@@ -26,91 +26,110 @@
 {% load static %}
 
 {% block content %}
-<div class="container my-5">
-<div class="row">
-<div class="col-md-8">
-<h1 class="display-4">Welcome to AI Art Prints</h1>
-<p class="lead">We offer unique works of art created using artificial intelligence.</p>
-<p>Our collection features works in various styles and genres, from classical painting to modern abstractions.</p>
-<p>Select your favorite print and place an order right now!</p>
-<a class="btn btn-primary" href="{% url 'prints:prints-list' %}">View Prints</a>
-</div>
-<div class="col-md-4">
-<img class="img-fluid" src="{% static 'images/img_1.jpg' %}" alt="girl_and_cupcakes">
-</div>
-</div>
-</div>
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-md-8">
+                <h1 class="display-4">Welcome to AI Art Prints</h1>
+                <p class="lead">We offer unique works of art created using artificial intelligence.</p>
+                <p>Our collection features works in various styles and genres, from classical painting to modern
+                    abstractions.</p>
+                <p>Select your favorite print and place an order right now!</p>
+                <a class="btn btn-primary" href="{% url 'prints:prints-list' %}">View Prints</a>
+            </div>
+            <div class="col-md-4">
+                <img class="img-fluid" src="{% static 'images/img_1.jpg' %}" alt="girl_and_cupcakes">
+            </div>
+        </div>
+    </div>
 
-{#    <form action="#" method="GET">#}
-{#        <div class="row">#}
-{#            <div class="col-md-6">#}
-{#                <div class="form-group">#}
-{#                    <input type="text" class="form-control" placeholder="Print Name">#}
-{#                </div>#}
-{#            </div>#}
-{#            <div class="col-md-6">#}
-{#                <div class="form-group">#}
-{#                    <input type="text" class="form-control" placeholder="Print Description">#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#        <button type="submit" class="btn btn-primary">Search</button>#}
-{#    </form>#}
+    {#    <form action="#" method="GET">#}
+    {#        <div class="row">#}
+    {#            <div class="col-md-6">#}
+    {#                <div class="form-group">#}
+    {#                    <input type="text" class="form-control" placeholder="Print Name">#}
+    {#                </div>#}
+    {#            </div>#}
+    {#            <div class="col-md-6">#}
+    {#                <div class="form-group">#}
+    {#                    <input type="text" class="form-control" placeholder="Print Description">#}
+    {#                </div>#}
+    {#            </div>#}
+    {#        </div>#}
+    {#        <button type="submit" class="btn btn-primary">Search</button>#}
+    {#    </form>#}
 
-<div class="container my-5">
-    <h2>How We Create Prints Using Artificial Intelligence</h2>
-    <p class="lead">The "AI Art Prints" project is an online store that offers unique prints created using artificial intelligence. Prints can be created based on various materials, such as photographs, images, drawings, and more.</p>
+    <div class="container my-5">
+        <h2>How We Create Prints Using Artificial Intelligence</h2>
+        <p class="lead">The "AI Art Prints" project is an online store that offers unique prints created using
+            artificial intelligence. Prints can be created based on various materials, such as photographs, images,
+            drawings, and more.</p>
 
-    <p class="lead">The creation of prints happens in the following way:</p>
+        <p class="lead">The creation of prints happens in the following way:</p>
 
-    <ul class="lead">
-        <li>Data Collection: Artificial intelligence collects data to create a print. This data can be gathered using computer vision, machine learning, generative models, and other technologies.</li>
-        <li>Data Processing: The collected data is processed and analyzed by artificial intelligence to create a unique image.</li>
-        <li>Image Generation: Based on the processed data, a unique image is created. This image may be edited manually or automatically to improve its quality.</li>
-        <li>Print Creation: After the image is created, it goes through the printing process on the material chosen by the buyer.</li>
-        <li>Order Delivery: The print is packed and delivered to the buyer.</li>
-    </ul>
+        <ul class="lead">
+            <li>Data Collection: Artificial intelligence collects data to create a print. This data can be gathered
+                using computer vision, machine learning, generative models, and other technologies.
+            </li>
+            <li>Data Processing: The collected data is processed and analyzed by artificial intelligence to create a
+                unique image.
+            </li>
+            <li>Image Generation: Based on the processed data, a unique image is created. This image may be edited
+                manually or automatically to improve its quality.
+            </li>
+            <li>Print Creation: After the image is created, it goes through the printing process on the material chosen
+                by the buyer.
+            </li>
+            <li>Order Delivery: The print is packed and delivered to the buyer.</li>
+        </ul>
 
-    <p class="lead">The "AI Art Prints" online store offers a wide selection of prints created using artificial intelligence. Each print has a unique design and can be created on various materials such as canvas, photo paper, metal, and others.</p>
+        <p class="lead">The "AI Art Prints" online store offers a wide selection of prints created using artificial
+            intelligence. Each print has a unique design and can be created on various materials such as canvas, photo
+            paper, metal, and others.</p>
 
-    <p class="lead">Customers can choose a ready-made design or order the creation of a custom print based on their own image. They can choose the print size, orientation, material, as well as frame and signature.</p>
+        <p class="lead">Customers can choose a ready-made design or order the creation of a custom print based on their
+            own image. They can choose the print size, orientation, material, as well as frame and signature.</p>
 
-    <p class="lead">"AI Art Prints" offers prints that can be used in interior design, as gifts, and as collectibles. It is a unique project that combines artificial intelligence and creativity to create unique works of art.</p>
-</div>
+        <p class="lead">"AI Art Prints" offers prints that can be used in interior design, as gifts, and as
+            collectibles. It is a unique project that combines artificial intelligence and creativity to create unique
+            works of art.</p>
+    </div>
 
-<div class="container form-group">
-    <h1 class="text-center mb-4">Prints Catalog</h1>
-    <form action="." method="GET">
-        {{ form.as_div }}
-        <button type="submit" class="btn btn-primary">Search</button>
-    </form>
+    <div class="container form-group">
+        <h1 class="text-center mb-4">Prints Catalog</h1>
+        <form action="." method="GET">
+            {{ form.as_div }}
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
 
-</div>
-{% if search_text %}
-<h3>Search results for <em>{{ search_text }}</em></h3>
-{% if prints %}
-<div class="card-columns">
-{% for print in prints %}
-<div class="card mb-3">
-<div class="row no-gutters">
-<div class="col-md-4">
-<img style="width: 90%; height: 90%;" src="{{ print.image.url }}" class="card-img-top" alt="{{ print.title }}">
-</div>
-<div class="col-md-8">
-<div class="card-body">
-<h5 class="card-title"><a href="{% url 'prints:prints-detail' print.pk %}">{{ print.title }}</a></h5>
-<p class="card-text">{{ print.description }}</p>
-<p class="card-text"><small class="text-muted">{{ print.price }} rubles</small></p>
-<a href="{% url 'prints:prints-detail' print.pk %}" class="btn btn-primary">Order Now</a>
-</div>
-</div>
-</div>
-</div>
-{% endfor %}
-</div>
-{% else %}
-<p>No results found for your query.</p>
-{% endif %}
-{% endif %}
+    </div>
+    {% if search_text %}
+        <h3>Search results for <em>{{ search_text }}</em></h3>
+        {% if prints %}
+            <div class="card-columns">
+                {% for print in prints %}
+                    <div class="card mb-3">
+                        <div class="row no-gutters">
+                            <div class="col-md-4">
+                                <img style="width: 90%; height: 90%;" src="{{ print.image.url }}" class="card-img-top"
+                                     alt="{{ print.title }}">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title"><a
+                                            href="{% url 'prints:prints-detail' print.pk %}">{{ print.title }}</a></h5>
+                                    <p class="card-text">{{ print.description }}</p>
+                                    <p class="card-text"><small class="text-muted">{{ print.price }} rubles</small></p>
+                                    <a href="{% url 'prints:prints-detail' print.pk %}" class="btn btn-primary">Order
+                                        Now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No results found for your query.</p>
+        {% endif %}
+    {% endif %}
 
 {% endblock %}
