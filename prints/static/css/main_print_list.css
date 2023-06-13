@@ -1,0 +1,36 @@
+.card {
+    border: none;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .card:hover {
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+  }
+  .paginator{
+      background-color: #aaaaaa;
+  }
+  .card-img-top {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 0;
+  }
+  nav {
+  background-color: #fffefe;
+  padding: 1rem;
+}
+  .card-text {
+    font-size: 16px;
+    margin-bottom: 0;
+  }
+
+  nav .paginator-background{
+    background-color: white;
+  }
