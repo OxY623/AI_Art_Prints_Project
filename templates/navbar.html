@@ -8,6 +8,7 @@
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
@@ -28,7 +29,8 @@
                 {% endif %}
             </li>
         </ul>
-        <ul class="navbar-nav">
+
+        <ul class="navbar-nav ml-auto">
             <li class="nav-item">
                 <form action="{% url 'prints:prints_search' %}" method="get" class="form-inline my-2 my-lg-0 d-flex">
                     <input name="search" class="form-control mr-sm-2" type="text" placeholder="Search"
@@ -60,5 +62,3 @@
         </ul>
     </div>
 </nav>
-
-

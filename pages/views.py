@@ -25,15 +25,16 @@ def homeView(request):
     )
 
     # Создание пагинации (по 10 объектов на страницу)
-    paginator = Paginator(prints, 10)
-    page_number = request.GET.get('page')
-    items_page = paginator.get_page(page_number)
+    # paginator = Paginator(prints, 10)
+    # page_number = request.GET.get('page')
+    # items_page = paginator.get_page(page_number)
 
     # Создание контекста (словаря данных), передаваемого в шаблон
     context = {
         'form': form,
         'search_text': search_text,
-        'prints': items_page,
+        'prints': prints
+        # 'prints': items_page,
     }
 
     # Отображение главной страницы (home.html) с контекстом данных

@@ -18,6 +18,7 @@
     <!-- Подключение стилей проекта -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/style_card.css' %}">
+
     {% block style %}
         <style></style>{% endblock %}
 </head>
@@ -43,8 +44,17 @@
 <!-- Подключение jQuery и Bootstrap JS -->
 {#    <script src="{% static 'js/jquery.min.js' %}"></script>#}
 {#    <script src="{% static 'js/bootstrap.min.js' %}"></script>#}
+{% block script %} {%  endblock %}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js
 /bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/
 tWtIaxVXM" crossorigin="anonymous"></script>
+
+<!-- Подключение библиотек и скриптов для работы меню -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"></script>
+
+
+
 </body>
 </html>
