@@ -1,18 +1,8 @@
-{#{% extends 'base.html' %}#}
-{#{% block title %}News - AI Art Prints{% endblock %}#}
-{#{% block content %}#}
-{#         {% for i in object_list %}#}
-{#             <div class="news">#}
-{#             <img src="{{ i.image.url }}">#}
-{#             <h3><a href="{% url 'news:news_detail' i.pk %}">{{ i.title }}</a></h3>#}
-{#               <p>{{ i.body }}</p>#}
-{#            </div>#}
-{#         {% endfor %}#}
-{#        {% endblock content %}#}
 
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Список новост - AI Art Prints{% endblock %}
+{% block title %}Список новостeй - AI Art Prints{% endblock %}
 
 {% block content %}
   <div class="container mt-4">
@@ -25,7 +15,7 @@
             <div class="card-body">
               <h5 class="card-title"><a href="{% url 'news:news_detail' article.pk %}">{{ article.title }}</a></h5>
               <p class="card-text">{{ article.body|truncatewords:20 }}</p>
-              <a href="{% url 'news:news_detail' article.pk %}" class="btn btn-primary">Читать далее</a>
+              <a href="{% url 'news:news_detail' article.pk %}" class="btn btn-primary">Read more</a>
             </div>
           </div>
         </div>

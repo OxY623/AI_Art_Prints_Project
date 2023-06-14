@@ -5,13 +5,12 @@ from .forms import SearchForm, SearchPrintsForm
 from django.core.paginator import Paginator
 
 
-# Create your views here.
-
-from django.core.paginator import Paginator
-
-
+# Вьюха для отображения списка всех Print-ов
 def print_list_view(request):
+    # Получаем список всех объектов из модели Print
     object_list = Print.objects.all()
+
+    # Получаем список просмотренных объектов из сессии пользователя
     viewed = request.session.get('viewed', [])
 
     # Создаем объект формы и передаем GET-параметры
@@ -36,11 +35,11 @@ def print_list_view(request):
             object_list = object_list.filter(price__lte=price_to)
 
     # Разбиваем отфильтрованный список на страницы
-    paginator = Paginator(object_list, 20)
+    paginator = Paginator(object_list, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    # Добавляем объект формы в контекст шаблона
+    # Добавляем объект формы и списки в контекст шаблона
     context = {
         'object_list': page_obj,
         'viewed': viewed,
@@ -51,65 +50,98 @@ def print_list_view(request):
     if not form.is_valid():
         context['form'] = form
 
+    # Отображаем список Print-ов и форму поиска на странице
     return render(request, 'prints/print-list.html', context)
 
 
+# Вьюха для отображения конкретного Print-а
 def print_lookup_view(request, my_id):
+    # Получаем объект Print с заданным id или выбрасываем 404 ошибку
     obj = get_object_or_404(Print, id=my_id)
+
+    # Получаем список просмотренных объектов из сессии пользователя
     viewed = request.session.get('viewed', [])
+
+    # Добавляем id просмотренного объекта в список и сохраняем его в сессии
     if obj.id not in viewed:
         viewed.append(obj.id)
         request.session['viewed'] = viewed
-    # try:
-    #     obj = Print.objects.get(id=my_id)
-    # except Print.DoesNotExist:
-    #     raise Http404
+
+    # Создаем контекст шаблона для отображения определенного Print-а
     context = {
         'object': obj,
-
     }
+
+    # Отображаем данные Print-а на странице
     return render(request, 'prints/print-detail.html', context)
 
 
+# Вьюха для поиска Print-ов по ключевому слову
 def print_search_view(request):
+    # Получаем ключевое слово поиска из GET-запроса
     search_text = request.GET.get('search', '')
+
+    # Фильтруем список Print-ов, чтобы получить все объекты, содержащие заданное ключевое слово
     prints = Print.objects.filter(title__icontains=search_text)
 
+    # Создаем контекст шаблона для отображения результатов поиска
     context = {
         'search_text': search_text,
         'prints': prints,
-
     }
+
+    # Отображаем результаты поиска на странице
     return render(request, 'search.html', context)
 
 
+# Вьюха для основной страницы с поиском Print-ов
 def print_search_main_view(request):
+    # Получаем ключевое слово поиска из GET-запроса
     search_text = request.GET.get("search", '')
+
+    # Создаем объект формы и передаем GET-параметры
     form = SearchForm(request.GET)
+
+    # Создаем пустой set для хранения Print-ов
     prints = set()
+
+    # Проверяем, что форма прошла валидацию и содержит данные
     if form.is_valid() and form.cleaned_data['search']:
+        # Получаем данные, введенные пользователем в форму
         search = form.cleaned_data['search']
         search_in = form.cleaned_data.get('search_in') or 'title'
+
+        # Фильтруем список Print-ов в зависимости от параметров поиска
         if search_in == 'title':
             prints = Print.objects.filter(title__icontains=search)
         else:
-            prints_descriptor = Print.objects.filter(description__icontains=search)
+            prints = Print.objects.filter(description__icontains=search)
+
+    # Создаем контекст шаблона для отображения результатов поиска на главной странице
     context = {
         'search_text': search_text,
         'prints': prints,
     }
+
+    # Отображаем результаты поиска на главной странице
     return render(request, 'home.html', context)
 
 
+# Вьюха для отображения подробной информации о Print
 def print_detail_full(request, my_pk):
+    # Получаем объект Print с заданным pk или выбрасываем 404 ошибку
     print = get_object_or_404(Print, pk=my_pk)
+
+    # Получаем список товаров из корзины из сессии пользователя и считаем общую стоимость заказа
     cart_items = request.session.get('cart', {})
     total_price = sum(item['quantity'] * item['print'].price for item in cart_items.values())
 
+    # Создаем контекст шаблона для отображения детальной информации о товаре
     context = {
         'object': print,
         'cart_items': cart_items.values(),
         'total_price': total_price,
     }
 
+    # Отображаем детальную информацию о товаре на странице
     return render(request, 'prints/print-detail_all.html', context)
