@@ -1,8 +1,9 @@
-from django.shortcuts import render, get_object_or_404
-from django.http import Http404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from .models import Print
-from .forms import SearchForm, SearchPrintsForm
+from .forms import SearchForm, SearchPrintsForm, PrintFormCreate
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import user_passes_test
 
 
 # Вьюха для отображения списка всех Print-ов
@@ -145,3 +146,32 @@ def print_detail_full(request, my_pk):
 
     # Отображаем детальную информацию о товаре на странице
     return render(request, 'prints/print-detail_all.html', context)
+
+
+# test views superuser funcs
+@user_passes_test(lambda u: u.is_superuser)
+def edit_print_superuser(request, pk=None):
+    if pk is not None:
+        print_obj = get_object_or_404(Print, pk=pk)
+    else:
+        print_obj = None
+    # form = None
+    if request.method == 'POST':
+        form = PrintFormCreate(request.POST, instance=print_obj)
+        if form.is_valid():
+            uptated_print = form.save()
+            if print_obj is None:
+                messages.succes(request, f'Print '
+                                         f'{uptated_print} was created')
+            else:
+                messages.success((request, f'Print {uptated_print} was upload'))
+            return redirect('prints:print_create', uptated_print.pk)
+    else:
+        form = PrintFormCreate(instance=print_obj)
+
+    context = {
+        'method': request.method,
+        'form': form,
+    }
+
+    return render(request, 'prints/form-edit-print.html', context)

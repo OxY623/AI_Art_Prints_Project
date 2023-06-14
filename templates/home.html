@@ -57,6 +57,14 @@
     {#        </div>#}
     {#        <button type="submit" class="btn btn-primary">Search</button>#}
     {#    </form>#}
+    {% if user.is_authenticated %}
+        <p>Super user is {{ user.username }}</p>
+    {% if user.username == 'oxy' %}
+                    <a href="{% url 'prints:prints-edit' %}" class="btn-primary btn">
+                        <i class="fas"></i> <p>Edit ans create prints</p>
+                    </a>
+    {% endif %}
+    {% endif %}
 
     <div class="container my-5">
         <h2>How We Create Prints Using Artificial Intelligence</h2>

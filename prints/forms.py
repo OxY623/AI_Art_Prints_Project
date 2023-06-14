@@ -1,4 +1,5 @@
 from django import forms
+from .models import Print
 from django.core.exceptions import ValidationError
 
 
@@ -41,3 +42,8 @@ class SearchPrintsForm(forms.Form):
                                       'class': 'form-control'
                                   }), min_value=0, max_value=9999)
 
+class PrintFormCreate(forms.ModelForm):
+    class Meta:
+        model = Print
+        fields = "__all__"
+        exclude = ()

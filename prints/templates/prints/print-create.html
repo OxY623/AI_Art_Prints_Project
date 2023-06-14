@@ -1,10 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+{% block link %}
+    <link rel="stylesheet" href="{% static 'css/main_print_list.css.css' %}">
+{% endblock %}
+{% block style %}
+    <style>
+        nav {
+            background-color: #fffefe;
+            padding: 1rem;
 
-</body>
-</html>
+    </style>
+{% endblock %}
+
+
+
+{% block content %}
+
+{% endblock %}
