@@ -3,17 +3,35 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
 
 # Определение функций-обработчиков запросов:
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login
 
 def register_view(request):
-    if request.method == 'POST':            # Если запрос - метод POST (из формы отправлены данные)
-        form = UserCreationForm(request.POST)   # Создание объекта формы и передача POST-данных
-        if form.is_valid():                  # Если форма действительна (заполнена корректно)
-            user = form.save()               # Создание нового пользователя на основе отправленной формы
-            login(request, user)             # Аутентификация пользователя
-            return redirect('home')          # Перенаправление на главную страницу
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            authenticated_user = authenticate(username=user.username, password=request.POST['password1'])
+            login(request, authenticated_user)
+            return redirect('home')
     else:
-        form = UserCreationForm()             # Если запрос - метод GET (отображение пустой формы)
-    return render(request, 'registration/register.html', {'form': form})   # Отображение шаблона с контекстом формы
+        form = UserCreationForm()
+    return render(request, 'registration/register.html', {'form': form})
+# def register_view(request):
+#     if request.method == 'POST':            # Если запрос - метод POST (из формы отправлены данные)
+#         form = UserCreationForm(request.POST)   # Создание объекта формы и передача POST-данных
+#         if form.is_valid():                  # Если форма действительна (заполнена корректно)
+#             user = form.save()               # Создание нового пользователя на основе отправленной формы
+#             login(request, user)             # Аутентификация пользователя
+#             return redirect('home')          # Перенаправление на главную страницу
+#     else:
+#         form = UserCreationForm()             # Если запрос - метод GET (отображение пустой формы)
+#     return render(request, 'registration/register.html', {'form': form})   # Отображение шаблона с контекстом формы
 
 def login_view(request):
     if request.method == 'POST':            # Если запрос - метод POST (из формы отправлены данные)

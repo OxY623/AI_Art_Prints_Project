@@ -4,6 +4,9 @@ from .models import Print
 from .forms import SearchForm, SearchPrintsForm, PrintFormCreate
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import user_passes_test
+from django.views.generic import ListView
+from django.http import Http404
+
 
 
 # Вьюха для отображения списка всех Print-ов
@@ -149,23 +152,22 @@ def print_detail_full(request, my_pk):
 
 
 # test views superuser funcs
-@user_passes_test(lambda u: u.is_superuser)
+# @user_passes_test(lambda u: u.is_superuser)
 def edit_print_superuser(request, pk=None):
     if pk is not None:
         print_obj = get_object_or_404(Print, pk=pk)
     else:
         print_obj = None
-    # form = None
+
     if request.method == 'POST':
         form = PrintFormCreate(request.POST, instance=print_obj)
         if form.is_valid():
-            uptated_print = form.save()
+            updated_print = form.save()
             if print_obj is None:
-                messages.succes(request, f'Print '
-                                         f'{uptated_print} was created')
+                messages.success(request, f'Print {updated_print} was created')
             else:
-                messages.success((request, f'Print {uptated_print} was upload'))
-            return redirect('prints:print_create', uptated_print.pk)
+                messages.success(request, f'Print {updated_print} was updated')
+            return redirect('prints:print_detail', updated_print.pk)
     else:
         form = PrintFormCreate(instance=print_obj)
 
@@ -175,3 +177,38 @@ def edit_print_superuser(request, pk=None):
     }
 
     return render(request, 'prints/form-edit-print.html', context)
+
+def print_delete_view(request, id):
+    print_to_delete = Print.objects.get(id=id)
+    if request.method == "POST":
+        print_to_delete.delete()
+        return redirect('print_list')
+    context = {
+        'object': print_to_delete
+    }
+    return render(request, 'prints/print_delete_super_user.html', context)
+
+
+# @user_passes_test(lambda u: u.is_superuser)
+class PrintListViewSuperUser(ListView):
+    model = Print
+    template_name = 'prints/print_list_super_user.html' # имя шаблона для вывода списка всех принтов
+    context_object_name = 'prints' # имя переменной контекста, в которой будут переданы все объекты модели "Print"
+
+    def get_queryset(self):
+        return Print.objects.all()
+
+
+def dynamic_lookup_view(request, id):
+    # obj = Product.objects.get(id=id)
+    # obj = get_object_or_404(Product, id=id)
+    try:
+        obj = Print.objects.get(id=id)
+    except Print.DoesNotExist:
+        raise Http404
+    context = {
+        'object': obj
+    }
+    return render(request, 'prints/print_super_user.html', context)
+
+

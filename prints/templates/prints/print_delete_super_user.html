@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+   <div class="container my-4">
+       <div class="card">
+           <div class="card-body">
+               <form action="." method="POST"> {% csrf_token %}
+                   <h1 class="card-title">Do you want to delete the product '{{ object.title }}'?</h1>
+                   <button type="submit" class="btn btn-danger mr-2">YES</button>
+                   <a href="{% url 'prints:print_list_super' %}" class="btn btn-secondary">CANCEL</a>
+               </form>
+           </div>
+       </div>
+   </div>
+
+   <!--Bootstrap -->
+   <script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"></script>
+   <script src="https://cdn.staticfile.org/popper.js/1.16.0/umd/popper.min.js"></script>
+   <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

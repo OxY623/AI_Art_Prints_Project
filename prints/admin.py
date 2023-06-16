@@ -1,4 +1,5 @@
 from django.contrib.admin import AdminSite
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import Print, Cart, CartPrint, UserProfile
 from django.contrib import admin
 # код упрощает администраторам просмотр, изменение и
@@ -28,17 +29,23 @@ class UserProfileAdmin(admin.ModelAdmin):
     list_filter = ('user', 'city')
 
 
+class UserAdmin(BaseUserAdmin):
+    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff')
+    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups', 'date_joined')
+    search_fields = ('username', 'email', 'first_name', 'last_name')
+    ordering = ('username',)
+    filter_horizontal = ('groups', 'user_permissions',)
+
+
 admin_site = AIArtPrintsAdmin(name='ai_art_prints')
-# Register your models here.
+
 admin_site.register(Print, PrintAdmin)
 admin_site.register(Cart, CartAdmin)
 admin_site.register(CartPrint, CartPrintAdmin)
 admin_site.register(UserProfile, UserProfileAdmin)
 
-# admin.site.register(Print)
-# admin.site.register(Cart)
-# admin.site.register(CartPrint)
-# admin.site.register(UserProfile)
 
-
-
+# admin.site.register(Print, PrintAdmin)
+# admin.site.register(Cart, CartAdmin)
+# admin.site.register(CartPrint, CartPrintAdmin)
+# admin.site.register(UserProfile, UserProfileAdmin)

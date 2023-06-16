@@ -2,18 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Create</title>
+    <!--BootstrapCSS -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
-{% for message in messages %}
-<p><em>{{ message.level_tag|title }}:</em> {{ message }}</p>
-{% endfor %}
-<form method="post"> {% csrf_token %}
 
-    {{ form.as_p }}
-    <p>
-        <input type="submit" value="Submit">
-    </p>
-</form>
+{% for message in messages %}
+<div class="alert alert-dismissible alert-{{ message.tags }}">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <strong>{{ message.tags|title }}</strong> {{ message }}
+</div>
+{% endfor %}
+<!-- 登录表单 -->
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <p class="text-center mt-3">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--  Bootstrap-->
+<script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>

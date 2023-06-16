@@ -6,6 +6,9 @@ from .views import (
     print_search_view,
     print_detail_full,
     edit_print_superuser,
+    print_delete_view,
+    PrintListViewSuperUser,
+    dynamic_lookup_view
 )
 
 app_name = 'prints'
@@ -19,4 +22,9 @@ urlpatterns = [
     path('full/<int:my_pk>/', print_detail_full, name='prints-detail-full'),
     path('superuser/create', edit_print_superuser, name='prints-edit'),
     path('new/', edit_print_superuser, name='print_create'),
+    path('superuser/list', PrintListViewSuperUser.as_view(), name='print_list_super'),
+    path('superuser/<int:id>/delete/', print_delete_view, name='print_delete_super'),
+    path('superuser/<int:id>/', dynamic_lookup_view, name='print-detail_super_user'),
+
+
 ]
