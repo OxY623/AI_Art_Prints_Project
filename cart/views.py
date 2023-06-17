@@ -17,7 +17,7 @@ def cart_view(request):
     return render(request, 'cart/cart.html', {'cart_items': cart_items, 'total_price': total_price})
 
 @login_required
-def add_to_cart(request, print_id):
+def add_to_cart(request, print_id, quantity=1):
     # Получение объекта печати по id
     print = get_object_or_404(Print, id=print_id)
     # Получение или создание корзины для текущего пользователя

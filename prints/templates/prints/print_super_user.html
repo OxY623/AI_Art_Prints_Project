@@ -11,7 +11,7 @@
            <div class="card-body">
                <a href="{% url 'prints:print_delete_super' object.id %}">
                    <h1 class="card-title">{{ object.title }}</h1>
-                    <img style="height: 29%; width: 29%" src="{{ object.image.url }}" class="card-img-top" alt="{{ object.title }}">
+                    <img style=" width: 50%" src="{{ object.image.url }}" class="card-img-top" alt="{{ object.title }}">
                </a>
                <p class="card-text">
                    {% if object.description %}

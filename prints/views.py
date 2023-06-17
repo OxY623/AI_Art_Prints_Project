@@ -1,3 +1,4 @@
+from django.core.exceptions import ImproperlyConfigured
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from .models import Print
@@ -6,6 +7,8 @@ from django.core.paginator import Paginator
 from django.contrib.auth.decorators import user_passes_test
 from django.views.generic import ListView
 from django.http import Http404
+from django.conf import settings
+import os
 
 
 
@@ -71,9 +74,13 @@ def print_lookup_view(request, my_id):
         viewed.append(obj.id)
         request.session['viewed'] = viewed
 
+    # Получаем `quantity` из POST-запроса
+    quantity = request.POST.get('quantity')
+
     # Создаем контекст шаблона для отображения определенного Print-а
     context = {
         'object': obj,
+        'quantity': quantity,
     }
 
     # Отображаем данные Print-а на странице
@@ -160,14 +167,35 @@ def edit_print_superuser(request, pk=None):
         print_obj = None
 
     if request.method == 'POST':
-        form = PrintFormCreate(request.POST, instance=print_obj)
+        form = PrintFormCreate(request.POST, request.FILES, instance=print_obj)
         if form.is_valid():
-            updated_print = form.save()
+            obj = form.save(commit=False)
+
+            # Проверяем, загружена ли пользователем новая картинка.
+            if request.FILES.get("image"):
+                # Определяем путь к медиа-файлам и создаем его, если он не существует.
+                media_root = getattr(settings, 'MEDIA_ROOT', None)
+                if not media_root:
+                    raise ImproperlyConfigured("MEDIA_ROOT setting must not be empty")
+                path = os.path.join(media_root, 'prints')
+                os.makedirs(path, exist_ok=True)
+                # Сохраняем файл.
+                image = request.FILES.get("image")
+                filename = f"{image.name}"
+                filepath = os.path.join(path, filename)
+                with open(filepath, 'wb') as f:
+                    for chunk in image.chunks():
+                        f.write(chunk)
+                obj.image = os.path.join('prints', filename)
+
+            obj.save()
+            form.save_m2m()
+
             if print_obj is None:
-                messages.success(request, f'Print {updated_print} was created')
+                messages.success(request, f'Принт "{obj.title}" был создан')
             else:
-                messages.success(request, f'Print {updated_print} was updated')
-            return redirect('prints:print_detail', updated_print.pk)
+                messages.success(request, f'Принт "{obj.title}" был успешно обновлен')
+            return redirect('prints:print_list_super')
     else:
         form = PrintFormCreate(instance=print_obj)
 
@@ -177,7 +205,6 @@ def edit_print_superuser(request, pk=None):
     }
 
     return render(request, 'prints/form-edit-print.html', context)
-
 def print_delete_view(request, id):
     print_to_delete = Print.objects.get(id=id)
     if request.method == "POST":
