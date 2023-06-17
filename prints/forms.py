@@ -46,4 +46,4 @@ class PrintFormCreate(forms.ModelForm):
     class Meta:
         model = Print
         fields = "__all__"
-        exclude = ('description',)
+        exclude = ()

@@ -58,18 +58,10 @@
     {#        <button type="submit" class="btn btn-primary">Search</button>#}
     {#    </form>#}
     {% if user.is_authenticated %}
-{#        <p>Super user is {{ user.username }}</p>#}
+        <p>Super user is {{ user.username }}</p>
     {% if user.username == 'oxy' %}
-                     <h1>Этот функционал еще в разработке</h1>
-                     <p>Hi  {{ user.username }}</p>
                     <a href="{% url 'prints:prints-edit' %}" class="btn-primary btn">
-                        <i class="fas"></i> <p>Edit test create prints</p>
-                    </a>
-                    <a href="{% url 'prints:print_list_super' %}" class="btn-primary btn">
-                        <i class="fas"></i> <p>Edit test list prints</p>
-                    </a>
-                    <a href="#" class="btn-primary btn">
-                        <i class="fas"></i> <p> What print btn ?????</p>
+                        <i class="fas"></i> <p>Edit ans create prints</p>
                     </a>
     {% endif %}
     {% endif %}
