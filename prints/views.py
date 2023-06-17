@@ -1,9 +1,15 @@
+from django.core.exceptions import ImproperlyConfigured
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from .models import Print
 from .forms import SearchForm, SearchPrintsForm, PrintFormCreate
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import user_passes_test
+from django.views.generic import ListView
+from django.http import Http404
+from django.conf import settings
+import os
+
 
 
 # Вьюха для отображения списка всех Print-ов
@@ -68,9 +74,13 @@ def print_lookup_view(request, my_id):
         viewed.append(obj.id)
         request.session['viewed'] = viewed
 
+    # Получаем `quantity` из POST-запроса
+    quantity = request.POST.get('quantity')
+
     # Создаем контекст шаблона для отображения определенного Print-а
     context = {
         'object': obj,
+        'quantity': quantity,
     }
 
     # Отображаем данные Print-а на странице
@@ -157,8 +167,37 @@ def edit_print_superuser(request, pk=None):
         print_obj = None
     # form = None
     if request.method == 'POST':
-        form = PrintFormCreate(request.POST, instance=print_obj)
+        form = PrintFormCreate(request.POST, request.FILES, instance=print_obj)
         if form.is_valid():
+
+            obj = form.save(commit=False)
+
+            # Проверяем, загружена ли пользователем новая картинка.
+            if request.FILES.get("image"):
+                # Определяем путь к медиа-файлам и создаем его, если он не существует.
+                media_root = getattr(settings, 'MEDIA_ROOT', None)
+                if not media_root:
+                    raise ImproperlyConfigured("MEDIA_ROOT setting must not be empty")
+                path = os.path.join(media_root, 'prints')
+                os.makedirs(path, exist_ok=True)
+                # Сохраняем файл.
+                image = request.FILES.get("image")
+                filename = f"{image.name}"
+                filepath = os.path.join(path, filename)
+                with open(filepath, 'wb') as f:
+                    for chunk in image.chunks():
+                        f.write(chunk)
+                obj.image = os.path.join('prints', filename)
+
+            obj.save()
+            form.save_m2m()
+
+            if print_obj is None:
+                messages.success(request, f'Принт "{obj.title}" был создан')
+            else:
+                messages.success(request, f'Принт "{obj.title}" был успешно обновлен')
+            return redirect('prints:print_list_super')
+
             uptated_print = form.save()
             if print_obj is None:
                 messages.succes(request, f'Print '
@@ -166,6 +205,7 @@ def edit_print_superuser(request, pk=None):
             else:
                 messages.success((request, f'Print {uptated_print} was upload'))
             return redirect('prints:print_create', uptated_print.pk)
+
     else:
         form = PrintFormCreate(instance=print_obj)
 
@@ -175,3 +215,39 @@ def edit_print_superuser(request, pk=None):
     }
 
     return render(request, 'prints/form-edit-print.html', context)
+
+def print_delete_view(request, id):
+    print_to_delete = Print.objects.get(id=id)
+    if request.method == "POST":
+        print_to_delete.delete()
+        return redirect('print_list')
+    context = {
+        'object': print_to_delete
+    }
+    return render(request, 'prints/print_delete_super_user.html', context)
+
+
+# @user_passes_test(lambda u: u.is_superuser)
+class PrintListViewSuperUser(ListView):
+    model = Print
+    template_name = 'prints/print_list_super_user.html' # имя шаблона для вывода списка всех принтов
+    context_object_name = 'prints' # имя переменной контекста, в которой будут переданы все объекты модели "Print"
+
+    def get_queryset(self):
+        return Print.objects.all()
+
+
+def dynamic_lookup_view(request, id):
+    # obj = Product.objects.get(id=id)
+    # obj = get_object_or_404(Product, id=id)
+    try:
+        obj = Print.objects.get(id=id)
+    except Print.DoesNotExist:
+        raise Http404
+    context = {
+        'object': obj
+    }
+    return render(request, 'prints/print_super_user.html', context)
+
+
+

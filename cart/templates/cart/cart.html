@@ -5,6 +5,44 @@
     <div class="row">
       <div class="-md-12">
         <h2>Cart</h2>
+      {% if cart_items %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Print Title</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ item.print.title }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.print.price }}</td>
+                    <td>
+                        <form method="post" action="{% url 'cart:remove_from_cart' item.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                Remove
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="3"></td>
+                <th>Total:</th>
+                <td>{{ total_price }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% else %}
+    <p>Your cart is empty.</p>
+{% endif %}
         <table class="table">
           <thead>
             <tr>

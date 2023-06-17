@@ -23,14 +23,18 @@
                 <h3>{{ object.artist }}</h3>
                 <p>{{ object.description }}</p>
                 {% if user.is_authenticated %}
-                    <form method="post" action="{% url 'cart:add_to_cart' object.id %}">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label for="quantity">Quantity:</label>
-                            <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Add to Cart</button>
-                    </form>
+                   {% if quantity %}
+<p>Quantity: {{ quantity }}</p>
+{% endif %}
+
+<form method="post" action="{% url 'add_to_cart' object.id quantity %}">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="quantity">Quantity:</label>
+        <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1">
+    </div>
+    <button type="submit" class="btn btn-primary">Add to Cart</button>
+</form>
                 {% endif %}
                 <div class="card mt-3">
                     <div class="card-body">
