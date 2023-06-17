@@ -159,16 +159,17 @@ def print_detail_full(request, my_pk):
 
 
 # test views superuser funcs
-# @user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(lambda u: u.is_superuser)
 def edit_print_superuser(request, pk=None):
     if pk is not None:
         print_obj = get_object_or_404(Print, pk=pk)
     else:
         print_obj = None
-
+    # form = None
     if request.method == 'POST':
         form = PrintFormCreate(request.POST, request.FILES, instance=print_obj)
         if form.is_valid():
+
             obj = form.save(commit=False)
 
             # Проверяем, загружена ли пользователем новая картинка.
@@ -196,6 +197,15 @@ def edit_print_superuser(request, pk=None):
             else:
                 messages.success(request, f'Принт "{obj.title}" был успешно обновлен')
             return redirect('prints:print_list_super')
+
+            uptated_print = form.save()
+            if print_obj is None:
+                messages.succes(request, f'Print '
+                                         f'{uptated_print} was created')
+            else:
+                messages.success((request, f'Print {uptated_print} was upload'))
+            return redirect('prints:print_create', uptated_print.pk)
+
     else:
         form = PrintFormCreate(instance=print_obj)
 
@@ -205,6 +215,7 @@ def edit_print_superuser(request, pk=None):
     }
 
     return render(request, 'prints/form-edit-print.html', context)
+
 def print_delete_view(request, id):
     print_to_delete = Print.objects.get(id=id)
     if request.method == "POST":
@@ -237,5 +248,6 @@ def dynamic_lookup_view(request, id):
         'object': obj
     }
     return render(request, 'prints/print_super_user.html', context)
+
 
 
