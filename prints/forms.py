@@ -42,8 +42,30 @@ class SearchPrintsForm(forms.Form):
                                       'class': 'form-control'
                                   }), min_value=0, max_value=9999)
 
+
+
 class PrintFormCreate(forms.ModelForm):
     class Meta:
         model = Print
-        fields = "__all__"
-        exclude = ('description',)
+        fields = ['title', 'artist', 'description', 'image', 'quantity', 'price']
+
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'artist': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
+            'image': forms.FileInput(attrs={'class': 'form-control-file'}),
+            'quantity': forms.NumberInput(attrs={'class': 'form-control'}),
+            'price': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+
+    def clean_quantity(self):
+        quantity = self.cleaned_data.get('quantity')
+        if quantity < 1 or quantity > 50:
+            raise forms.ValidationError('Количество должно быть от 1 до 50.')
+        return quantity
+
+    def clean_price(self):
+        price = self.cleaned_data.get('price')
+        if price <= 0 or price >= 100000:
+            raise forms.ValidationError('Цена должна быть от 0.02 до 99999.')
+        return price

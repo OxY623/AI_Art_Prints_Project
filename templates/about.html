@@ -1,17 +1,38 @@
+{#{% extends 'base.html' %}#}
+{#{% load static %}#}
+{##}
+{#{% block title %}About - AI Art Prints {% endblock %}#}
+{##}
+{#{% block content %}#}
+{#    <div class="container">#}
+{#    <img src="{% static 'logo/logo.png' %}">#}
+{#        <h1>About Us</h1>#}
+{#        <p>AI Art Prints is an online store that offers unique works of art created with the help of artificial#}
+{#            intelligence.</p>#}
+{#        <p>We collaborate with the best artists and developers to create amazing works of art that were never possible#}
+{#            before.</p>#}
+{#        <p>Our mission is to make art accessible to everyone, and we believe that artificial intelligence can help us#}
+{#            achieve this goal.</p>#}
+{#        <p>We are proud that all of our works of art are created using modern artificial intelligence technologies, and#}
+{#            we are sure that you will be delighted with our collection.</p>#}
+{#    </div>#}
+{#{% endblock %}#}
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}About - AI Art Prints {% endblock %}
+{% block title %}About - AI Art Prints{% endblock %}
+
+{% block link %}
+  <link rel="stylesheet" href="{% static 'css/about.css' %}">
+{% endblock %}
 
 {% block content %}
-    <div class="container">
-        <h1>About Us</h1>
-        <p>AI Art Prints is an online store that offers unique works of art created with the help of artificial
-            intelligence.</p>
-        <p>We collaborate with the best artists and developers to create amazing works of art that were never possible
-            before.</p>
-        <p>Our mission is to make art accessible to everyone, and we believe that artificial intelligence can help us
-            achieve this goal.</p>
-        <p>We are proud that all of our works of art are created using modern artificial intelligence technologies, and
-            we are sure that you will be delighted with our collection.</p>
-    </div>
+  <div class="container">
+    <img src="{% static 'logo/logo.png' %}" alt="AI Art Prints logo" class="logo">
+    <h1>About Us</h1>
+    <p>AI Art Prints is an online store that offers unique works of art created with the help of artificial intelligence.</p>
+    <p>We collaborate with the best artists and developers to create amazing works of art that were never possible before.</p>
+    <p>Our mission is to make art accessible to everyone, and we believe that artificial intelligence can help us achieve this goal.</p>
+    <p>We are proud that all of our works of art are created using modern artificial intelligence technologies, and we are sure that you will be delighted with our collection.</p>
+  </div>
 {% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Пользователи и их корзины:</h1>
+  {% for profile in user_profiles %}
+    <h2>{{ profile.user.username }}</h2>
+    <p>Адрес: {{ profile.address }}</p>
+    <p>Город: {{ profile.city }}</p>
+    <p>Штат: {{ profile.state }}</p>
+    <p>Страна: {{ profile.country }}</p>
+    <p>Индекс: {{ profile.zip_code }}</p>
+    <p>Корзина:</p>
+    <ul>
+    {% for cart in profile.user.cart_set.all %}
+      {% for cartprint in cart.cartprint_set.all %}
+        <li>{{ cartprint.print.title }} - {{ cartprint.quantity }}</li>
+      {% endfor %}
+    {% endfor %}
+    </ul>
+  {% endfor %}
+{% endblock %}

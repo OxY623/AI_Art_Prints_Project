@@ -1,11 +1,16 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
-from .models import Print
+# from .models import Print, UserProfile
+from prints.models import Print, UserProfile
+from django.contrib.auth.models import User
 from .forms import SearchForm, SearchPrintsForm, PrintFormCreate
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import user_passes_test
 from django.views.generic import ListView
 from django.http import Http404
+import os
+from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 
 
 
@@ -160,14 +165,35 @@ def edit_print_superuser(request, pk=None):
         print_obj = None
 
     if request.method == 'POST':
-        form = PrintFormCreate(request.POST, instance=print_obj)
+        form = PrintFormCreate(request.POST, request.FILES, instance=print_obj)
         if form.is_valid():
-            updated_print = form.save()
+            obj = form.save(commit=False)
+
+            # Проверяем, загружена ли пользователем новая картинка.
+            if request.FILES.get("image"):
+                # Определяем путь к медиа-файлам и создаем его, если он не существует.
+                media_root = getattr(settings, 'MEDIA_ROOT', None)
+                if not media_root:
+                    raise ImproperlyConfigured("MEDIA_ROOT setting must not be empty")
+                path = os.path.join(media_root, 'prints')
+                os.makedirs(path, exist_ok=True)
+                # Сохраняем файл.
+                image = request.FILES.get("image")
+                filename = f"{image.name}"
+                filepath = os.path.join(path, filename)
+                with open(filepath, 'wb') as f:
+                    for chunk in image.chunks():
+                        f.write(chunk)
+                obj.image = os.path.join('prints', filename)
+
+            obj.save()
+            form.save_m2m()
+
             if print_obj is None:
-                messages.success(request, f'Print {updated_print} was created')
+                messages.success(request, f'Принт "{obj.title}" был создан')
             else:
-                messages.success(request, f'Print {updated_print} was updated')
-            return redirect('prints:print_detail', updated_print.pk)
+                messages.success(request, f'Принт "{obj.title}" был успешно обновлен')
+            return redirect('prints:print_list_super')
     else:
         form = PrintFormCreate(instance=print_obj)
 
@@ -210,5 +236,14 @@ def dynamic_lookup_view(request, id):
         'object': obj
     }
     return render(request, 'prints/print_super_user.html', context)
+
+def user_cart_view(request):
+    user_profiles = UserProfile.objects.all()
+    context = {
+        'user_profiles': user_profiles
+    }
+    return render(request, 'prints/user_cart.html', context)
+
+
 
 
