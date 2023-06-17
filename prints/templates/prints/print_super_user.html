@@ -1,11 +1,17 @@
-{% extends 'base.html' %}
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Print</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
    <div class="container my-4">
        <div class="card">
            <div class="card-body">
                <a href="{% url 'prints:print_delete_super' object.id %}">
                    <h1 class="card-title">{{ object.title }}</h1>
-                    <img style="height: 80%; width: 29%" src="{{ object.image.url }}" class="card-img-top" alt="{{ object.title }}">
+                    <img style="height: 29%; width: 29%" src="{{ object.image.url }}" class="card-img-top" alt="{{ object.title }}">
                </a>
                <p class="card-text">
                    {% if object.description %}
@@ -24,4 +30,5 @@
    <script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"></script>
    <script src="https://cdn.staticfile.org/popper.js/1.16.0/umd/popper.min.js"></script>
    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-{% endblock %}
+</body>
+</html>

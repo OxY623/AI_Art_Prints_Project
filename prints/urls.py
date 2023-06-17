@@ -8,8 +8,7 @@ from .views import (
     edit_print_superuser,
     print_delete_view,
     PrintListViewSuperUser,
-    dynamic_lookup_view,
-    user_cart_view,
+    dynamic_lookup_view
 )
 
 app_name = 'prints'
@@ -26,7 +25,6 @@ urlpatterns = [
     path('superuser/list', PrintListViewSuperUser.as_view(), name='print_list_super'),
     path('superuser/<int:id>/delete/', print_delete_view, name='print_delete_super'),
     path('superuser/<int:id>/', dynamic_lookup_view, name='print-detail_super_user'),
-    path('superuser/users/', user_cart_view, name='user_cart_view'),
 
 
 ]
